@@ -45,7 +45,6 @@ function updateProgress() {
     progressBar.style.width = `${(video.currentTime / video.duration) * 100}%`
     currentTime.textContent = `${displayTime(video.currentTime)} /`;
     duration.textContent = `${displayTime(video.duration)}`;
-    video.currentTime = newTime * video.duration;   
 }
 
 function setProgress(e) {
@@ -59,6 +58,50 @@ function setProgress(e) {
 
 // Volume Controls --------------------------- //
 
+
+let lastVolume = 1;
+
+function changeVolumeIcon(volume) {
+    if (volume > 0.40) {
+        volumeIcon.className = '';
+        volumeIcon.classList.add('fas', 'fa-volume-up');
+      } else if (volume < 0.40 && volume > 0) {
+        volumeIcon.className = '';
+        volumeIcon.classList.add('fas', 'fa-volume-down');
+      } else if (volume === 0) {
+        volumeIcon.className = '';
+        volumeIcon.classList.add('fas', 'fa-volume-off');
+      }
+}
+
+function changeVolume(e) {
+    let volume = e.offsetX / volumeRange.offsetWidth;
+    volumeBar.style.width = `${volume*100}%`;
+    if (volume < .1) {volume = 0}
+    if (volume > .9) {volume = 1}
+    video.volume = volume;
+    changeVolumeIcon(volume);
+    lastVolume = volume;
+}
+
+
+function toggleMute() {
+    volumeIcon.className = '';
+    if(video.volume){
+        lastVolume = video.volume;
+        video.volume = 0;
+        volumeBar.style.width = 0;
+        volumeIcon.classList.add('fas', 'fa-volume-mute');
+        volumeIcon.setAttribute('title','Unmute' );
+
+
+    }else{
+        video.volume = lastVolume;
+        volumeBar.style.width = `${lastVolume * 100}%`;        
+        changeVolumeIcon(video.volume);
+    }
+
+}
 
 
 // Change Playback Speed -------------------- //
@@ -78,3 +121,5 @@ video.addEventListener('ended', showPlayIcon );
 video.addEventListener('timeupdate', updateProgress );
 video.addEventListener('canplay', updateProgress );
 progressRange.addEventListener('click', setProgress );
+volumeRange.addEventListener('click', changeVolume );
+volumeIcon.addEventListener('click', toggleMute)
