@@ -176,12 +176,17 @@ video {
 /* Playback Speed */
 .speed {
   margin-right: 15px;
+
+}
+
+select,option{
+  cursor: pointer;
 }
 
 
 
 select {
-
+  background-color: transparent;
   color: var(--font-color);
   border: none;
   font-size: 18px;
@@ -190,6 +195,9 @@ select {
   border-radius: 5px;
 }
 
+select:focus {
+  outline: none;
+}
 
 
 select > option {
