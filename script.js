@@ -1,13 +1,14 @@
-const video = document.querySelector('video');
-const progressRange = document.querySelector('.progress-range'); 
+const player = document.querySelector('.player');
+const video = document.querySelector('.video');
+const progressRange = document.querySelector('.progress-range');
 const progressBar = document.querySelector('.progress-bar');
 const playBtn = document.getElementById('play-btn');
 const volumeIcon = document.getElementById('volume-icon');
-const volumeRange = document.querySelector('.volume-range'); 
+const volumeRange = document.querySelector('.volume-range');
 const volumeBar = document.querySelector('.volume-bar');
-const timeElapsed = document.querySelector('.time-elapsed'); 
-const currentTime = document.querySelector('.current-time');
-const duration = document.querySelector('.time-duration'); 
+const speed = document.querySelector('.player-speed');
+const currentTime = document.querySelector('.time-elapsed');
+const duration = document.querySelector('.time-duration');
 const fullscreenBtn = document.querySelector('.fullscreen');
 
 
@@ -32,8 +33,19 @@ function togglePlay(){
 }
 
 // Progress Bar ---------------------------------- //
+
+function displayTime(time) {
+    const minutes = Math.floor(time/60);
+    let seconds = Math.floor(time % 60);
+    seconds = seconds > 9 ? seconds : `0${seconds}`;
+    return `${minutes}:${seconds}`;
+}
+
 function updateProgress() {
     progressBar.style.width = `${(video.currentTime / video.duration) * 100}%`
+    currentTime.textContent = `${displayTime(video.currentTime)} /`;
+    duration.textContent = `${displayTime(video.duration)}`;
+
 }
 
 
